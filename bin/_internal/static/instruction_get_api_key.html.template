@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>APIキー設定 - 手順</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Meiryo, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            max-width: 750px;
+            width: 100%;
+            text-align: left;
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+            margin-top: 0;
+            font-size: 2em;
+        }
+        h2 {
+            color: #17a2b8;
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+        p, li {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .user-code-container {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ced4da;
+        }
+        .user-code-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        .user-code {
+            font-weight: bold;
+            color: #d9534f; /* 赤系 */
+            font-size: 1.8em;
+            background-color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            border: 1px dashed #d9534f;
+        }
+        .clipboard-message {
+            font-style: italic;
+            color: #28a745; /* 緑系 */
+            font-size: 0.95em;
+            display: block;
+            margin-top: 5px;
+        }
+        .action-button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important; /* リンク色を上書き */
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1.25em;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0,123,255,0.2);
+        }
+        .action-button:hover, .action-button:focus {
+            background-color: #0056b3;
+            color: white !important;
+            outline: none;
+        }
+        .note {
+            font-size: 0.95em;
+            color: #6c757d;
+            margin-top: 30px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+            background-color: #f1f3f5;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        .note strong {
+            color: #dc3545;
+        }
+        ol {
+            padding-left: 25px;
+        }
+        ol li {
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>APIキー設定のお願い</h1>
+        <p>このアプリケーションを初めてご利用になるため、APIキーの設定（Googleアカウントを使用した認証）が必要です。以下の手順に従って設定を完了してください。</p>
+        
+        <h2>設定手順</h2>
+        <ol>
+            <li>
+                <span class="user-code-label">以下のユーザーコードをGoogleの認証ページで入力します:</span>
+                <div class="user-code-container">
+                    <span class="user-code">{{USER_CODE}}</span>
+                    <span class="clipboard-message">{{CLIPBOARD_MESSAGE}}</span>
+                </div>
+            </li>
+            <li>
+                下の「1. 認証ページを開く」ボタンをクリックすると、Googleの認証ページが新しいタブで開きます。<br>
+                <small>（もし自動で開かない場合は、<a href="{{VERIFICATION_URL}}" target="_blank" id="manualLink">{{VERIFICATION_URL}}</a> を手動で開いてください）</small>
+            </li>
+            <li>開いたGoogleのページ（通常 "デバイスを接続" と表示されます）に、上記の<strong>ユーザーコードを貼り付け</strong>て「続行」ボタンを押してください。</li>
+            <li>画面の指示に従って、Googleアカウントを選択し、このアプリケーション（API Key Managerなどと表示される場合があります）へのアクセスを許可してください。</li>
+            <li>ブラウザに「デバイスを接続しました」または同様の成功メッセージが表示されれば、ブラウザでの操作は完了です。</li>
+            <li>ブラウザでの認証が完了すると、このアプリケーションが自動的にAPIキーを設定します。完了の通知があるまで、このChromeウィンドウやアプリケーションを閉じずにお待ちください（最大5分程度かかる場合があります）。</li>
+        </ol>
+
+        <div class="action-button-container">
+            <a href="{{VERIFICATION_URL}}" target="_blank" class="action-button" id="authButton">1. 認証ページを開く (Google)</a>
+        </div>
+
+        <div class="note">
+            <p><strong>重要:</strong></p>
+            <ul>
+                <li>ブラウザでの認証が完了するまで、このChromeウィンドウや、起動元のアプリケーション（黒いコンソール画面や通知ダイアログなど）は<strong>閉じないでください。</strong></li>
+                <li>もし途中で問題が発生した場合は、お手数ですがアプリケーションを一度終了し、再度起動してこの手順をやり直してください。</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // ユーザーが手動で認証ページを開けるように、ボタンにもフォーカスしておく
+        // また、Python側で webbrowser.open が失敗した場合の保険
+        const authButton = document.getElementById('authButton');
+        if (authButton) {
+            // Python側で自動で開くことを試みる場合、ここでの自動オープンは不要
+            // window.open('{{VERIFICATION_URL}}', '_blank');
+        }
+        // もし、このHTMLが表示された直後に自動で認証ページを開きたい場合は、以下のコメントを外す
+        // (ただし、Python側で webbrowser.open_new_tab を呼ぶなら不要)
+        /*
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Python側で開くのが望ましいが、念のため
+            // if (confirm("Googleの認証ページを新しいタブで開きますか？")) {
+            //    window.open('{{VERIFICATION_URL}}', '_blank');
+            // }
+        });
+        */
+    </script>
+</body>
+</html>

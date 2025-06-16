@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "get_google_ai_summary",
+    "arguments": {
+      "query": "AIとは何か",
+      "headless_mode": false,
+      "wait_seconds": 1
+    }
+  },
+  "id": "test-request-002" 
+}

@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+      /* Language and Environment */
+      "target": "ES2022", // 最新のECMAScript機能の多くをサポートするバージョン
+      "module": "NodeNext", // Node.jsのESモジュールシステムに対応
+      "moduleResolution": "NodeNext", // モジュール解決戦略
+      "esModuleInterop": true, // CommonJSモジュールとESモジュールのより良い相互運用性のため
+      "forceConsistentCasingInFileNames": true, // ファイル名の大文字・小文字を区別する
+  
+      /* Type Checking */
+      "strict": true, // すべての厳格な型チェックオプションを有効化
+      "noImplicitAny": true, // 暗黙的なany型を許可しない
+      "strictNullChecks": true, // nullおよびundefinedをより厳密に扱う
+      "strictFunctionTypes": true, // 関数のパラメータの型をより厳密にチェック
+      "strictBindCallApply": true, // bind, call, applyの型をより厳密にチェック
+      "strictPropertyInitialization": true, // クラスのプロパティがコンストラクタで初期化されることを保証
+      "noImplicitThis": true, // 暗黙的なthisの型を許可しない
+      "alwaysStrict": true, // 各ソースファイルで 'use strict' を出力
+  
+      /* Modules */
+      "resolveJsonModule": true, // .jsonファイルのインポートを許可
+      "isolatedModules": true, // 各ファイルを個別のモジュールとしてトランスパイル
+  
+      /* Emit */
+      "outDir": "./dist", // コンパイルされたJavaScriptファイルの出力先ディレクトリ
+      "rootDir": "./src", // TypeScriptソースファイルのルートディレクトリ
+      "removeComments": true, // コンパイル時にコメントを削除
+      "sourceMap": true, // デバッグ用にソースマップファイル(.js.map)を生成
+  
+      /* Interop Constraints */
+      "allowSyntheticDefaultImports": true, // defaultエクスポートを持たないモジュールからのdefaultインポートを許可
+  
+      /* Completeness */
+      "skipLibCheck": true // 依存ライブラリの型チェックをスキップ (ビルド高速化)
+    },
+    "include": [
+      "src/**/*" // コンパイル対象はsrcディレクトリ以下のすべての.tsファイル
+    ],
+    "exclude": [
+      "node_modules", // node_modulesディレクトリはコンパイル対象外
+      "dist" // 出力先ディレクトリもコンパイル対象外
+    ]
+  }

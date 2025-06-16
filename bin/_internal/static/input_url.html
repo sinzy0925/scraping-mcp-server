@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URLリンクリスト作成</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 95%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 1em;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px; /* ボタン間のスペース */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #downloadLinkContainer {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URLリンクリスト作成</h1>
+        
+        <label for="urlInput">URLを改行区切りで入力してください:</label>
+        <textarea id="urlInput" placeholder="例:
+https://www.google.com
+https://www.yahoo.co.jp"></textarea>
+        
+        <button onclick="generateAndOpenLinks()">リンクを新規タブで表示</button>
+        <button onclick="generateAndDownloadHtml()">HTMLとしてダウンロード</button>
+        
+        <div id="downloadLinkContainer">
+            <!-- ここにダウンロードリンクが一時的に表示されることがあります -->
+        </div>
+    </div>
+
+    <script>
+        function getGeneratedHtmlContent() {
+            const urlInput = document.getElementById('urlInput');
+            const urlsText = urlInput.value;
+
+            if (urlsText.trim() === '') {
+                return null; // 空の場合はnullを返す
+            }
+
+            const urlsArray = urlsText.split('\n');
+            let newTabHtml = `
+                <!DOCTYPE html>
+                <html lang="ja">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>生成されたリンクリスト</title>
+                    <style>
+                        body { font-family: sans-serif; margin: 20px; }
+                        h1 { color: #333; }
+                        a { 
+                            display: block; 
+                            margin-bottom: 8px; 
+                            color: #007bff; 
+                            text-decoration: none; 
+                            font-size: 1.1em;
+                        }
+                        a:hover { text-decoration: underline; }
+                    </style>
+                </head>
+                <body>
+                    <h1>生成されたリンクリスト</h1>
+            `;
+
+            let linkCount = 0;
+            urlsArray.forEach(url => {
+                const trimmedUrl = url.trim();
+                if (trimmedUrl !== '') {
+                    let fullUrl = trimmedUrl;
+                    if (!trimmedUrl.startsWith('http://') && !trimmedUrl.startsWith('https://')) {
+                        fullUrl = 'http://' + trimmedUrl;
+                    }
+                    newTabHtml += `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer">${trimmedUrl}</a>\n`;
+                    linkCount++;
+                }
+            });
+
+            if (linkCount === 0 && urlsArray.length > 0) {
+                newTabHtml += '<p>有効なURLが見つかりませんでした。（空行のみの可能性があります）</p>';
+            } else if (linkCount === 0) {
+                 newTabHtml += '<p>表示するリンクがありません。</p>';
+            }
+            newTabHtml += `
+                </body>
+                </html>
+            `;
+            return newTabHtml;
+        }
+
+        function generateLinksInNewTab() {
+            // この関数は前回のままで、新しいタブにHTMLを直接書き込む
+            // (URLは blob: または about:blank になる)
+            const htmlContent = getGeneratedHtmlContent();
+            if (!htmlContent) {
+                alert('URLが入力されていません。');
+                return;
+            }
+
+            const newTab = window.open('', '_blank');
+            if (newTab) {
+                newTab.document.open();
+                newTab.document.write(htmlContent);
+                newTab.document.close();
+            } else {
+                alert('新しいタブを開けませんでした。ポップアップブロックが有効になっている可能性があります。');
+            }
+        }
+
+        function generateAndDownloadHtml() {
+            const htmlContent = getGeneratedHtmlContent();
+            if (!htmlContent) {
+                alert('URLが入力されていません。');
+                return;
+            }
+
+            // 1. Blobオブジェクトを作成
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+
+            // 2. BlobへのURLを作成
+            const url = URL.createObjectURL(blob);
+
+            // 3. ダウンロード用の<a>タグを生成
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = 'generated_links.html'; // ダウンロードされるファイル名
+            
+            // (オプション) 画面に表示せずにクリックするためにbodyに追加し、すぐに削除
+            document.body.appendChild(downloadLink);
+            downloadLink.click(); // プログラム的にクリックしてダウンロードを開始
+            document.body.removeChild(downloadLink); // 不要になったリンクを削除
+
+            // 4. メモリリークを防ぐためにオブジェクトURLを解放
+            URL.revokeObjectURL(url);
+
+            alert('HTMLファイルがダウンロードされます。\nダウンロード後、そのファイルを開いてスクレイピング対象としてください。');
+        }
+    </script>
+</body>
+</html>
