@@ -1,0 +1,17 @@
+# C:\Users\sinzy\mastra-mcp-go-anywhere\.gitignore
+node_modules
+dist
+.env
+*.log
+mastra/node_modules
+mastra/dist
+crs-mcp-client/node_modules
+crs-mcp-client/dist
+crs-mcp-scraper-server/node_modules
+crs-mcp-scraper-server/dist
+crs-mcp-law-server/node_modules
+crs-mcp-law-server/dist
+api-client/
+
+
+
