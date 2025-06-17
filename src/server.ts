@@ -72,37 +72,71 @@ async function runYourScrapingAppTool(
     taskName: string,
     params: Record<string, any>
 ): Promise<CallToolResult> {
-    console.log(`[MCP Server Tool][${taskName}] Tool called with params:`, params);
+    console.log(`[MCP Server Tool][${taskName}] Tool called with params:`, JSON.stringify(params, null, 2));
     const args: string[] = ["--task", taskName, "--output-stdout-json"];
 
     for (const [key, value] of Object.entries(params)) {
         if (value === undefined || value === null) continue;
         if (key === "output_stdout_json") continue;
 
-        let argName = `--${key.replace(/_/g, '-')}`;
+        let argName = "";
+        let argValue = String(value);
+        let pushArgWithValue = true;
 
-        if (key === "headless_mode") {
-            if (value === true) { args.push("--headless"); }
-            else if (value === false) { args.push("--no-headless"); }
-            continue;
-        }
-        if (key === "apply_stealth") {
-            if (value === true) { args.push("--stealth"); }
-            else if (value === false) { args.push("--no-stealth"); }
-            continue;
-        }
-        if (key === "no_samedomain" || key === "ignore_robots_txt") {
-            if (value === true) { args.push(argName); }
-            continue;
-        }
-        if (key === "wait_seconds") argName = "--wait";
-        if (key === "browser_type") argName = "--browser-type";
-        if (key === "context_window") argName = "--context-window";
-        if (key === "merge_threshold") argName = "--merge-threshold";
+        // YourScrapingApp.exe のヘルプ出力 (-h) に基づいて引数名を正確にマッピング
+        switch (key) {
+            // --- フラグ系の引数 (値を取らない、または --no- で反転) ---
+            case "headless_mode":
+                if (value === true) args.push("--headless");
+                else if (value === false) args.push("--no-headless");
+                pushArgWithValue = false;
+                break;
+            case "apply_stealth": // exe のヘルプでは --stealth / --no-stealth
+                if (value === true) args.push("--stealth");
+                else if (value === false) args.push("--no-stealth");
+                pushArgWithValue = false;
+                break;
+            case "no_samedomain": // exe のヘルプでは --no-samedomain (trueの時のみフラグ付与)
+                if (value === true) args.push("--no-samedomain");
+                pushArgWithValue = false;
+                break;
+            case "ignore_robots_txt": // exe のヘルプでは --ignore_robots_txt (trueの時のみフラグ付与)
+                if (value === true) args.push("--ignore_robots_txt");
+                pushArgWithValue = false;
+                break;
 
-        args.push(argName, String(value));
+            // --- 値を取る引数 (exe のヘルプに合わせる) ---
+            case "max_depth":         argName = "--max_depth"; break;       // ★ アンダースコア区切り
+            case "request_delay":     argName = "--request_delay"; break;   // ★ アンダースコア区切り
+            case "user_agent":        argName = "--user_agent"; break;      // ★ アンダースコア区切り
+            case "wait_seconds":      argName = "--wait"; break;             // exeでは --wait
+            case "wait_selector":     argName = "--wait_selector"; break;   // ★ アンダースコア区切り
+            case "browser_type":      argName = "--browser_type"; break;    // ★ アンダースコア区切り (exeヘルプに合わせて修正)
+            case "context_window":    argName = "--context_window"; break;  // ★ アンダースコア区切り
+            case "merge_threshold":   argName = "--merge_threshold"; break; // ★ アンダースコア区切り
+            
+            // 以下はZodスキーマ名とexeの引数名が一致していると仮定 (ハイフン区切り)
+            // もしexe側がアンダースコアなら上記switchに追加
+            case "url":
+            case "selector":
+            case "parallel":
+            case "timeout": // これはページロード等のタイムアウト
+            case "query":
+            case "keyword":
+                argName = `--${key}`; // Zodのキー名がそのままexeの引数名（ハイフンなし）の場合
+                break;
+            default:
+                // 基本はZodのキー名をハイフン区切りに変換するが、上記switchで明示的に処理されなかったもの
+                console.warn(`[MCP Server Tool][${taskName}] Unhandled key to argName conversion for: ${key}. Defaulting to --${key.replace(/_/g, '-')}`);
+                argName = `--${key.replace(/_/g, '-')}`;
+        }
+
+        if (pushArgWithValue && argName) {
+            args.push(argName, argValue);
+        }
     }
 
+    // ... (以降の execFileAsync 呼び出し部分は変更なし)
     const absoluteExePath = path.resolve(YOURSCRAPINGAPP_EXE_PATH);
     const absoluteCwd = path.resolve(YOURSCRAPINGAPP_EXE_DIR);
 
@@ -111,18 +145,13 @@ async function runYourScrapingAppTool(
     console.log(`[MCP Server Tool][${taskName}] CWD: "${absoluteCwd}"`);
 
     try {
-        // encoding: 'buffer' を指定することで、stdout と stderr が Buffer として返されます。
-        // これにより、TypeScript は stdout と stderr を Buffer 型として正しく推論します。
         const { stdout, stderr } = await execFileAsync(absoluteExePath, args, {
             timeout: EXECUTION_TIMEOUT,
-            encoding: 'buffer', // ★ 修正: encoding を 'buffer' に設定
+            encoding: 'buffer',
             cwd: absoluteCwd,
             windowsHide: true
         });
-        // 上記の修正により、以下の型アサーションは不要になります。
-        // }) as { stdout: Buffer, stderr: Buffer };
-
-        // stdout と stderr は Buffer 型なので、toString() を使って文字列に変換します。
+        
         const stdoutString = stdout.toString('utf-8').trim();
         const stderrString = stderr.toString('utf-8').trim();
 
@@ -130,13 +159,13 @@ async function runYourScrapingAppTool(
             console.warn(`[MCP Server Tool][${taskName}] YourScrapingApp.exe stderr:\n--- STDERR ---\n${stderrString}\n------------`);
         }
         if (stdoutString) {
-            console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe stdout (decoded, length: ${stdoutString.length}):\n--- STDOUT ---\n${stdoutString}\n------------`);
+            console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe stdout (decoded, length: ${stdoutString.length}):\n--- STDOUT (first 1000 chars) ---\n${stdoutString.substring(0, 1000)}${stdoutString.length > 1000 ? '...' : ''}\n------------`);
         } else {
             console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe produced empty stdout after decoding and trimming.`);
         }
 
         if (!stdoutString) {
-            const errorMsg = `Error: Task '${taskName}' process produced no output after decoding.`;
+            const errorMsg = `Error: Task '${taskName}' process produced no output after decoding.Stderr (if any): ${stderrString || '(empty)'}`;
             console.error(`[MCP Server Tool][${taskName}] ${errorMsg}`);
             return { isError: true, content: [{ type: "text", text: errorMsg }] };
         }
@@ -172,44 +201,25 @@ async function runYourScrapingAppTool(
                 return { content: [{ type: "text", text: JSON.stringify(resultData) }] };
             }
         } else {
-            const unexpectedDataMsg = `Error: Task '${taskName}' output parsed to an unexpected value (not an object or null).`;
+            const unexpectedDataMsg = `Error: Task '${taskName}' output parsed to an unexpected value (not an object or null). Parsed as: ${typeof resultData}`;
             console.error(`[MCP Server Tool][${taskName}] ${unexpectedDataMsg} Data:`, resultData);
             return { isError: true, content: [{ type: "text", text: unexpectedDataMsg }] };
         }
 
-    } catch (error: any) { // execFileAsync自体のエラー (ENOENTなど)
+    } catch (error: any) {
         console.error(`[MCP Server Tool][${taskName}] Error executing YourScrapingApp.exe:`, error);
         let detailedErrorMsg = `Failed to execute task '${taskName}'.`;
         if (error.message) detailedErrorMsg += ` Message: ${error.message}`;
-
-        // error オブジェクトが ExecFileException のインスタンスか、または stdout/stderr プロパティを持つか確認
-        // ExecFileException の stdout/stderr は string | Buffer の可能性があるため、両方に対応
         const execError = error as ExecFileException & { stdout?: string | Buffer, stderr?: string | Buffer };
-
         if (execError.code !== undefined) detailedErrorMsg += ` Exit code: ${execError.code}.`;
         if (execError.signal !== undefined) detailedErrorMsg += ` Signal: ${execError.signal}.`;
-
         if (execError.stdout) {
-            let execStdout = '';
-            if (Buffer.isBuffer(execError.stdout)) {
-                execStdout = execError.stdout.toString('utf-8');
-            } else if (typeof execError.stdout === 'string') {
-                execStdout = execError.stdout;
-            }
-            if (execStdout) {
-                detailedErrorMsg += `\n--- Process STDOUT (during error) ---\n${execStdout}`;
-            }
+            let execStdout = Buffer.isBuffer(execError.stdout) ? execError.stdout.toString('utf-8') : execError.stdout;
+            if (execStdout) detailedErrorMsg += `\n--- Process STDOUT (during error) ---\n${execStdout}`;
         }
         if (execError.stderr) {
-            let execStderr = '';
-            if (Buffer.isBuffer(execError.stderr)) {
-                execStderr = execError.stderr.toString('utf-8');
-            } else if (typeof execError.stderr === 'string') {
-                execStderr = execError.stderr;
-            }
-            if (execStderr) {
-                detailedErrorMsg += `\n--- Process STDERR (during error) ---\n${execStderr}`;
-            }
+            let execStderr = Buffer.isBuffer(execError.stderr) ? execError.stderr.toString('utf-8') : execError.stderr;
+            if (execStderr) detailedErrorMsg += `\n--- Process STDERR (during error) ---\n${execStderr}`;
         }
         return { isError: true, content: [{ type: "text", text: detailedErrorMsg }] };
     }

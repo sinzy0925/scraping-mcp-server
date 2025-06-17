@@ -69,47 +69,80 @@ const scrapeLawPageInputSchema = z.object({
     merge_threshold: z.number().int().positive().optional().describe("Threshold distance between keyword occurrences to merge snippets. If not provided, task default will be used.")
 });
 async function runYourScrapingAppTool(taskName, params) {
-    console.log(`[MCP Server Tool][${taskName}] Tool called with params:`, params);
+    console.log(`[MCP Server Tool][${taskName}] Tool called with params:`, JSON.stringify(params, null, 2));
     const args = ["--task", taskName, "--output-stdout-json"];
     for (const [key, value] of Object.entries(params)) {
         if (value === undefined || value === null)
             continue;
         if (key === "output_stdout_json")
             continue;
-        let argName = `--${key.replace(/_/g, '-')}`;
-        if (key === "headless_mode") {
-            if (value === true) {
-                args.push("--headless");
-            }
-            else if (value === false) {
-                args.push("--no-headless");
-            }
-            continue;
+        let argName = "";
+        let argValue = String(value);
+        let pushArgWithValue = true;
+        switch (key) {
+            case "headless_mode":
+                if (value === true)
+                    args.push("--headless");
+                else if (value === false)
+                    args.push("--no-headless");
+                pushArgWithValue = false;
+                break;
+            case "apply_stealth":
+                if (value === true)
+                    args.push("--stealth");
+                else if (value === false)
+                    args.push("--no-stealth");
+                pushArgWithValue = false;
+                break;
+            case "no_samedomain":
+                if (value === true)
+                    args.push("--no-samedomain");
+                pushArgWithValue = false;
+                break;
+            case "ignore_robots_txt":
+                if (value === true)
+                    args.push("--ignore_robots_txt");
+                pushArgWithValue = false;
+                break;
+            case "max_depth":
+                argName = "--max_depth";
+                break;
+            case "request_delay":
+                argName = "--request_delay";
+                break;
+            case "user_agent":
+                argName = "--user_agent";
+                break;
+            case "wait_seconds":
+                argName = "--wait";
+                break;
+            case "wait_selector":
+                argName = "--wait_selector";
+                break;
+            case "browser_type":
+                argName = "--browser_type";
+                break;
+            case "context_window":
+                argName = "--context_window";
+                break;
+            case "merge_threshold":
+                argName = "--merge_threshold";
+                break;
+            case "url":
+            case "selector":
+            case "parallel":
+            case "timeout":
+            case "query":
+            case "keyword":
+                argName = `--${key}`;
+                break;
+            default:
+                console.warn(`[MCP Server Tool][${taskName}] Unhandled key to argName conversion for: ${key}. Defaulting to --${key.replace(/_/g, '-')}`);
+                argName = `--${key.replace(/_/g, '-')}`;
         }
-        if (key === "apply_stealth") {
-            if (value === true) {
-                args.push("--stealth");
-            }
-            else if (value === false) {
-                args.push("--no-stealth");
-            }
-            continue;
+        if (pushArgWithValue && argName) {
+            args.push(argName, argValue);
         }
-        if (key === "no_samedomain" || key === "ignore_robots_txt") {
-            if (value === true) {
-                args.push(argName);
-            }
-            continue;
-        }
-        if (key === "wait_seconds")
-            argName = "--wait";
-        if (key === "browser_type")
-            argName = "--browser-type";
-        if (key === "context_window")
-            argName = "--context-window";
-        if (key === "merge_threshold")
-            argName = "--merge-threshold";
-        args.push(argName, String(value));
     }
     const absoluteExePath = path.resolve(YOURSCRAPINGAPP_EXE_PATH);
     const absoluteCwd = path.resolve(YOURSCRAPINGAPP_EXE_DIR);
@@ -129,13 +162,13 @@ async function runYourScrapingAppTool(taskName, params) {
             console.warn(`[MCP Server Tool][${taskName}] YourScrapingApp.exe stderr:\n--- STDERR ---\n${stderrString}\n------------`);
         }
         if (stdoutString) {
-            console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe stdout (decoded, length: ${stdoutString.length}):\n--- STDOUT ---\n${stdoutString}\n------------`);
+            console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe stdout (decoded, length: ${stdoutString.length}):\n--- STDOUT (first 1000 chars) ---\n${stdoutString.substring(0, 1000)}${stdoutString.length > 1000 ? '...' : ''}\n------------`);
         }
         else {
             console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe produced empty stdout after decoding and trimming.`);
         }
         if (!stdoutString) {
-            const errorMsg = `Error: Task '${taskName}' process produced no output after decoding.`;
+            const errorMsg = `Error: Task '${taskName}' process produced no output after decoding.Stderr (if any): ${stderrString || '(empty)'}`;
             console.error(`[MCP Server Tool][${taskName}] ${errorMsg}`);
             return { isError: true, content: [{ type: "text", text: errorMsg }] };
         }
@@ -175,7 +208,7 @@ async function runYourScrapingAppTool(taskName, params) {
             }
         }
         else {
-            const unexpectedDataMsg = `Error: Task '${taskName}' output parsed to an unexpected value (not an object or null).`;
+            const unexpectedDataMsg = `Error: Task '${taskName}' output parsed to an unexpected value (not an object or null). Parsed as: ${typeof resultData}`;
             console.error(`[MCP Server Tool][${taskName}] ${unexpectedDataMsg} Data:`, resultData);
             return { isError: true, content: [{ type: "text", text: unexpectedDataMsg }] };
         }
@@ -191,28 +224,14 @@ async function runYourScrapingAppTool(taskName, params) {
         if (execError.signal !== undefined)
             detailedErrorMsg += ` Signal: ${execError.signal}.`;
         if (execError.stdout) {
-            let execStdout = '';
-            if (Buffer.isBuffer(execError.stdout)) {
-                execStdout = execError.stdout.toString('utf-8');
-            }
-            else if (typeof execError.stdout === 'string') {
-                execStdout = execError.stdout;
-            }
-            if (execStdout) {
+            let execStdout = Buffer.isBuffer(execError.stdout) ? execError.stdout.toString('utf-8') : execError.stdout;
+            if (execStdout)
                 detailedErrorMsg += `\n--- Process STDOUT (during error) ---\n${execStdout}`;
-            }
         }
         if (execError.stderr) {
-            let execStderr = '';
-            if (Buffer.isBuffer(execError.stderr)) {
-                execStderr = execError.stderr.toString('utf-8');
-            }
-            else if (typeof execError.stderr === 'string') {
-                execStderr = execError.stderr;
-            }
-            if (execStderr) {
+            let execStderr = Buffer.isBuffer(execError.stderr) ? execError.stderr.toString('utf-8') : execError.stderr;
+            if (execStderr)
                 detailedErrorMsg += `\n--- Process STDERR (during error) ---\n${execStderr}`;
-            }
         }
         return { isError: true, content: [{ type: "text", text: detailedErrorMsg }] };
     }

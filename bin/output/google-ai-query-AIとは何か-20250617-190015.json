@@ -1,6 +1,6 @@
 {
     "query": "AIとは何か",
-    "execution_datetime": "2025-06-16T15:57:15.549936",
+    "execution_datetime": "2025-06-17T19:00:15.244585",
     "ai_summary_results_count": 27,
     "ai_summary_results": [
         {
@@ -157,13 +157,13 @@
             "source_type": "organic_search"
         },
         {
-            "title": "人工知能",
-            "url": "https://ja.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%9F%A5%E8%83%BD",
+            "title": "AIってなに？",
+            "url": "https://www.mext.go.jp/kids/find/kagaku/mext_0008.html",
             "source_type": "organic_search"
         },
         {
-            "title": "AIってなに？",
-            "url": "https://www.mext.go.jp/kids/find/kagaku/mext_0008.html",
+            "title": "人工知能",
+            "url": "https://ja.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%9F%A5%E8%83%BD",
             "source_type": "organic_search"
         },
         {

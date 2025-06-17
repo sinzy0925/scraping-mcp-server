@@ -7,7 +7,7 @@
     "scripts": {
       "build": "tsc",
       "start": "node dist/server.js",
-      "dev": "tsc -w & node --watch dist/server.js",
+      "dev": "tsc & node dist/server.js",
       "lint": "eslint src/**/*.ts",
       "format": "prettier --write src/**/*.ts"
     },
