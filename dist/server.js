@@ -68,6 +68,13 @@ const scrapeLawPageInputSchema = z.object({
     context_window: z.number().int().positive().optional().describe("Number of characters before and after the keyword to include in the snippet. If not provided, task default will be used."),
     merge_threshold: z.number().int().positive().optional().describe("Threshold distance between keyword occurrences to merge snippets. If not provided, task default will be used.")
 });
+const googleSearchInputSchema = z.object({
+    query: z.string().min(1, { message: "Search query cannot be empty." }).describe("The search query string for Google."),
+    search_pages: z.number().int().positive().optional().describe("Number of search result pages to process. Defaults to 1 if not provided."),
+    parallel: z.number().int().positive().optional().describe("Maximum number of parallel browser tasks for scraping result pages. If not provided, task default will be used."),
+    timeout: z.number().int().positive().optional().describe("Operation timeout in milliseconds for page loads/actions. If not provided, task default will be used."),
+    headless_mode: z.boolean().optional().describe("Whether to run the browser in headless mode. If not specified, the task's default behavior is used."),
+});
 async function runYourScrapingAppTool(taskName, params) {
     console.log(`[MCP Server Tool][${taskName}] Tool called with params:`, JSON.stringify(params, null, 2));
     const args = ["--task", taskName, "--output-stdout-json"];
@@ -83,15 +90,11 @@ async function runYourScrapingAppTool(taskName, params) {
             case "headless_mode":
                 if (value === true)
                     args.push("--headless");
-                else if (value === false)
-                    args.push("--no-headless");
                 pushArgWithValue = false;
                 break;
             case "apply_stealth":
                 if (value === true)
                     args.push("--stealth");
-                else if (value === false)
-                    args.push("--no-stealth");
                 pushArgWithValue = false;
                 break;
             case "no_samedomain":
@@ -127,6 +130,9 @@ async function runYourScrapingAppTool(taskName, params) {
                 break;
             case "merge_threshold":
                 argName = "--merge_threshold";
+                break;
+            case "search_pages":
+                argName = "--search-pages";
                 break;
             case "url":
             case "selector":
@@ -168,7 +174,7 @@ async function runYourScrapingAppTool(taskName, params) {
             console.log(`[MCP Server Tool][${taskName}] YourScrapingApp.exe produced empty stdout after decoding and trimming.`);
         }
         if (!stdoutString) {
-            const errorMsg = `Error: Task '${taskName}' process produced no output after decoding.Stderr (if any): ${stderrString || '(empty)'}`;
+            const errorMsg = `Error: Task '${taskName}' process produced no output after decoding. Stderr (if any): ${stderrString || '(empty)'}`;
             console.error(`[MCP Server Tool][${taskName}] ${errorMsg}`);
             return { isError: true, content: [{ type: "text", text: errorMsg }] };
         }
@@ -183,22 +189,19 @@ async function runYourScrapingAppTool(taskName, params) {
             return { isError: true, content: [{ type: "text", text: errorMsg }] };
         }
         if (resultData && typeof resultData === 'object' && resultData !== null) {
-            if (resultData.status && resultData.status !== "success") {
+            if ('status' in resultData && resultData.status !== "success") {
                 const errorMessage = resultData.message || `Task '${taskName}' reported status: ${resultData.status}`;
                 console.warn(`[MCP Server Tool][${taskName}] Task reported error via status field: ${errorMessage}`);
-                return { isError: true, content: [{ type: "text", text: errorMessage }] };
+                return { isError: true, content: [{ type: "text", text: JSON.stringify(resultData) }] };
             }
             else if (resultData.status === "success") {
-                if (resultData.details && resultData.details.task_output_data) {
-                    console.log(`[MCP Server Tool][${taskName}] Task successful (via status field), using task_output_data from details.`);
-                    return { content: [{ type: "text", text: JSON.stringify(resultData.details.task_output_data) }] };
-                }
-                else if (resultData.details) {
-                    console.log(`[MCP Server Tool][${taskName}] Task successful (via status field), using details as content.`);
-                    return { content: [{ type: "text", text: JSON.stringify(resultData.details) }] };
+                const taskOutput = resultData.details?.task_output_data;
+                if (taskOutput) {
+                    console.log(`[MCP Server Tool][${taskName}] Task successful, returning task_output_data.`);
+                    return { content: [{ type: "text", text: JSON.stringify(taskOutput) }] };
                 }
                 else {
-                    console.warn(`[MCP Server Tool][${taskName}] Task reported status:success but no 'details' or 'task_output_data' found. Returning full resultData.`);
+                    console.warn(`[MCP Server Tool][${taskName}] Task reported status:success but no 'task_output_data' found. Returning full result.`);
                     return { content: [{ type: "text", text: JSON.stringify(resultData) }] };
                 }
             }
@@ -242,10 +245,12 @@ function setupMcpServer() {
     console.log("[MCP Server Init] Server instance created.");
     server.tool("crawl_website", "指定されたURLからウェブサイトをクロールし、リンク、メールアドレス、電話番号などの情報を収集します。最大深度や同一ドメイン制限などのオプションを指定できます。", crawlWebsiteInputSchema.shape, async (params) => runYourScrapingAppTool("crawl", params));
     console.log("[MCP Server Tool] 'crawl_website' tool defined.");
-    server.tool("get_google_ai_summary", "指定された検索クエリでGoogle検索を実行し、AIによる概要と通常の検索結果（タイトルとURL）を取得します。", getGoogleAiSummaryInputSchema.shape, async (params) => runYourScrapingAppTool("google_ai", params));
+    server.tool("get_google_ai_summary", "指定された検索クエリでGoogle検索を実行し、AIによる概要の参照元URLを全件取得します。SEO分析などに特化しています。", getGoogleAiSummaryInputSchema.shape, async (params) => runYourScrapingAppTool("google_ai", params));
     console.log("[MCP Server Tool] 'get_google_ai_summary' tool defined.");
     server.tool("scrape_law_page", "指定された法令ページのURLから特定のキーワードを検索し、キーワードが出現する条文や関連する階層情報（章、節など）を含む文脈を抽出します。", scrapeLawPageInputSchema.shape, async (params) => runYourScrapingAppTool("law_scraper", params));
     console.log("[MCP Server Tool] 'scrape_law_page' tool defined.");
+    server.tool("google_search", "指定された検索クエリでGoogle検索を実行し、AIによる概要と通常の検索結果の両方を取得します。さらに、それらの結果ページのURLにアクセスして、本文コンテンツ、メールアドレス、電話番号を収集します。", googleSearchInputSchema.shape, async (params) => runYourScrapingAppTool("google_search", params));
+    console.log("[MCP Server Tool] 'google_search' tool defined.");
     return server;
 }
 async function startHttpServer() {
@@ -254,16 +259,19 @@ async function startHttpServer() {
     console.log(`[HTTP Server] Setting up /mcp endpoint on port ${MCP_SERVER_PORT}...`);
     app.post('/mcp', async (req, res) => {
         console.log('[HTTP Server] Received POST /mcp request');
-        console.debug(`[HTTP Server] Headers: ${JSON.stringify(req.headers, null, 2)}`);
         console.debug(`[HTTP Server] Body: ${JSON.stringify(req.body, null, 2)}`);
         let transport = null;
         let mcpServerInstance = null;
         try {
             mcpServerInstance = setupMcpServer();
             transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
-            res.on('close', () => { console.log('[HTTP Server] Client connection closed. Cleaning up...'); if (transport)
-                transport.close(); if (mcpServerInstance)
-                mcpServerInstance.close(); });
+            res.on('close', () => {
+                console.log('[HTTP Server] Client connection closed. Cleaning up...');
+                if (transport)
+                    transport.close();
+                if (mcpServerInstance)
+                    mcpServerInstance.close();
+            });
             await mcpServerInstance.connect(transport);
             console.log('[HTTP Server] McpServer connected to transport.');
             await transport.handleRequest(req, res, req.body);
@@ -284,8 +292,10 @@ async function startHttpServer() {
                 mcpServerInstance.close();
         }
     });
-    app.get('/mcp', (req, res) => { console.log('[HTTP Server] GET /mcp (Not Allowed for Stateless).'); res.writeHead(405, { 'Content-Type': 'application/json; charset=utf-8', 'Allow': 'POST' }).end(JSON.stringify({ jsonrpc: "2.0", error: { code: -32601, message: "Method Not Allowed. Use POST." }, id: null })); });
-    app.delete('/mcp', (req, res) => { console.log('[HTTP Server] DELETE /mcp (Not Allowed for Stateless).'); res.writeHead(405, { 'Content-Type': 'application/json; charset=utf-8', 'Allow': 'POST' }).end(JSON.stringify({ jsonrpc: "2.0", error: { code: -32601, message: "Method Not Allowed." }, id: null })); });
+    app.get('/mcp', (req, res) => {
+        console.log('[HTTP Server] GET /mcp (Not Allowed for Stateless).');
+        res.status(405).set('Allow', 'POST').json({ jsonrpc: "2.0", error: { code: -32601, message: "Method Not Allowed. Use POST." }, id: null });
+    });
     const httpServer = http.createServer(app);
     httpServer.listen(MCP_SERVER_PORT, () => {
         console.log("==========================================================");
