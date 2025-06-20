@@ -51,7 +51,8 @@ const crawlWebsiteInputSchema = z.object({
     ignore_robots_txt: z.boolean().optional().describe("Whether to ignore the website's robots.txt file. If not provided, task default will be used."),
     user_agent: z.string().optional().describe("Custom user agent string to use for crawling. If not provided, task default will be used."),
     request_delay: z.number().nonnegative().optional().describe("Delay in seconds between requests. If not provided, task default will be used."),
-    no_samedomain: z.boolean().optional().describe("If true, allows crawling to external domains. If false or not provided, restricts to the same domain as the start URL.")
+    no_samedomain: z.boolean().optional().describe("If true, allows crawling to external domains. If false or not provided, restricts to the same domain as the start URL."),
+    main_content_only: z.boolean().optional().describe("If true, the crawler will attempt to identify the main content of a page and only follow links within that area, ignoring headers, footers, and sidebars.")
 });
 const getGoogleAiSummaryInputSchema = z.object({
     query: z.string().min(1, { message: "Search query cannot be empty." }).describe("The search query string for Google."),
@@ -105,6 +106,11 @@ async function runYourScrapingAppTool(taskName, params) {
             case "ignore_robots_txt":
                 if (value === true)
                     args.push("--ignore_robots_txt");
+                pushArgWithValue = false;
+                break;
+            case "main_content_only":
+                if (value === true)
+                    args.push("--main-content-only");
                 pushArgWithValue = false;
                 break;
             case "max_depth":
@@ -195,7 +201,7 @@ async function runYourScrapingAppTool(taskName, params) {
                 return { isError: true, content: [{ type: "text", text: JSON.stringify(resultData) }] };
             }
             else if (resultData.status === "success") {
-                const taskOutput = resultData.details?.task_output_data;
+                const taskOutput = resultData.task_output_data;
                 if (taskOutput) {
                     console.log(`[MCP Server Tool][${taskName}] Task successful, returning task_output_data.`);
                     return { content: [{ type: "text", text: JSON.stringify(taskOutput) }] };

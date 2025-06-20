@@ -51,7 +51,9 @@ const crawlWebsiteInputSchema = z.object({
     ignore_robots_txt: z.boolean().optional().describe("Whether to ignore the website's robots.txt file. If not provided, task default will be used."),
     user_agent: z.string().optional().describe("Custom user agent string to use for crawling. If not provided, task default will be used."),
     request_delay: z.number().nonnegative().optional().describe("Delay in seconds between requests. If not provided, task default will be used."),
-    no_samedomain: z.boolean().optional().describe("If true, allows crawling to external domains. If false or not provided, restricts to the same domain as the start URL.")
+    no_samedomain: z.boolean().optional().describe("If true, allows crawling to external domains. If false or not provided, restricts to the same domain as the start URL."),
+    // ★★★ 新しいプロパティを追加 ★★★
+    main_content_only: z.boolean().optional().describe("If true, the crawler will attempt to identify the main content of a page and only follow links within that area, ignoring headers, footers, and sidebars.")
 });
 
 const getGoogleAiSummaryInputSchema = z.object({
@@ -115,6 +117,11 @@ async function runYourScrapingAppTool(
                 break;
             case "ignore_robots_txt":
                 if (value === true) args.push("--ignore_robots_txt");
+                pushArgWithValue = false;
+                break;
+            // ★★★ 新しい引数のマッピングを追加 ★★★
+            case "main_content_only":
+                if (value === true) args.push("--main-content-only");
                 pushArgWithValue = false;
                 break;
 
@@ -203,7 +210,7 @@ async function runYourScrapingAppTool(
                 return { isError: true, content: [{ type: "text", text: JSON.stringify(resultData) }] }; // エラー詳細を含めて返す
             } else if (resultData.status === "success") {
                  // 成功の場合、'task_output_data' を探す
-                 const taskOutput = resultData.details?.task_output_data;
+                 const taskOutput = resultData.task_output_data;
                  if (taskOutput) {
                     console.log(`[MCP Server Tool][${taskName}] Task successful, returning task_output_data.`);
                     return { content: [{ type: "text", text: JSON.stringify(taskOutput) }] };

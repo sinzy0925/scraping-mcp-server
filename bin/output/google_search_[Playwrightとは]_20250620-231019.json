@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "source_type": "google_search_and_scrape_results",
+    "query_used": "Playwrightとは",
+    "description": "Google検索で「Playwrightとは」と検索し、各結果ページのコンテンツを取得した結果です。",
+    "timestamp": "2025-06-20T23:10:19.431534",
+    "total_urls_processed": 10,
+    "valid_results_count": 9
+  },
+  "search_results": [
+    {
+      "url": "https://learn.microsoft.com/ja-jp/microsoft-edge/playwright/",
+      "title": "Playwright を使用してMicrosoft Edgeで自動化とテストを行う - Microsoft Edge Developer documentation | Microsoft Learn",
+      "content_preview": "メイン コンテンツにスキップ\nLearn\n発見\n製品ドキュメント\n開発言語\nトピック\nサインイン\nMicrosoft Edge\nエンタープライズ\n開発者\nトラブルシューティング\nリソース\n\n この記事は、お客様の市場向けに英語から翻訳されています。 使用されている言語の品質にどのくらい満足していますか?\n\nお知らせください\nアラートを無視\n検索する\nMicrosoft Edge 開発者向けドキュメント\nMicrosoft Edge を使用して Web 用に開発する\nリリース ノート\n試験的な Web プラットフォーム機能\nMicrosoft Edge DevTools\nMicrosoft Edge 拡張機能\nプログレッシブ Web アプリ\nWebView2\nテストおよび自動化\nMicrosoft Edge でのテストと自動化\nDevTools プロトコル\nPlaywright を使用してMicrosoft Edgeで自動化とテストを行う\nPuppeteer の概要\nWebDriver\nVisual Studio Code 向け Webhint 拡張機能\nエッジ固有の Web 開発のヒント\nMicrosoft Edge IDE の統合\nMicrosoft Edge のアクセシビリティ\nDualEngine\nMicrosoft Edge を使用した Web 開発に関するビデオ\nMicrosoft Edge プライバシー ホワイトペーパー\nWeb We Want イニシアチブ\nPDF をダウンロード\nLearn  Microsoft Edge \nPlaywright を使用してMicrosoft Edgeで自動化とテストを行う\n2023/06/05\n\nPlaywright ライブラリは、1 つの API を介してブラウザー間の自動化を提供します。\n\nPlaywright は、Chromium 、Firefox、WebKit を 1 つの API で自動化するためのNode.jsライブラリです。 Playwright は、常緑、対応、信頼性、高速のクロスブラウザー Web オートメーションを可能にするために構築されています。 Microsoft Edge はオープンソースのChromium Web プラットフォーム上に構築されているため、Playwright は Micro...",
+      "full_content_length": 4549,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://annotations-lab.com/354-2/",
+      "title": "初心者向けPlaywright徹底解説！Webアプリテストの自動化を始めよう | ＠あの、あのてーしょん",
+      "content_preview": "＠あの、あのてーしょん\n初心者向けPlaywright徹底解説！Webアプリテストの自動化を始めよう\n2024.12.212025.02.09\n\nこんにちは！\n今回は、テスト自動化ツール Playwright の基本について解説します。特に、「自動化って難しそう…」と思っている方に向けて、手順やポイントを一つひとつ丁寧に説明します！\n\n目次\nPlaywrightとは\nPlaywrightの概要\nなぜテスト自動化が必要？\nPlaywrightのインストール\n簡単なテストの作成\n簡単なテストスクリプトの書き方\nE2Eテストの基礎\nPlaywrightを使ったE2Eテストの具体例\n応用編\nPlaywrightの主な機能\nPlaywrightの活用例\n公式ドキュメント\nまとめ\nPlaywrightとは\nPlaywrightの概要\n\nPlaywrightは、Microsoftが開発したWebアプリケーションのテスト自動化ツールです。以下の特徴があります：\n\n複数のブラウザに対応\nGoogle Chrome、Firefox、Safari、Microsoft Edgeなど主要ブラウザをサポート。\nクロスプラットフォーム対応\nWindows、Mac、Linuxで動作。\nモダンな設計\nJavaScript/TypeScriptをはじめ、PythonやJava、C#でも利用可能。\nE2Eテストに最適\nユーザー視点の操作を再現した「エンドツーエンド（E2E）テスト」が簡単に実現。\nなぜテスト自動化が必要？\n\nWebアプリケーション開発では、「新しい機能を追加したら、他の部分が壊れてしまった」というケースを防ぐためにテストが重要です。しかし、手作業でテストを行うと次のような課題が出てきます：\n\n時間がかかる\n毎回同じ手順を繰り返すのは非効率。\nミスが起こりやすい\n手動だと見逃しや確認漏れが発生。\n\nそこで、Playwrightのようなツールを使えば、以下のメリットがあります：\n\n素早いテスト実行\n数分で大量のテストを完了。\n精度が向上\n人間のミスを減らし、正確に動作確認。\n開発者の負担を軽減\nテスト作業が減ることで、新しい機能開発に集中できる。\nPlaywrightのインストール\n\nまず、Node.jsがインストールされていることを確認してください。その後、以下のコマンドでPlaywrig...",
+      "full_content_length": 5988,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://eow.alc.co.jp/search?q=playwright",
+      "title": "「playwright」の意味・使い方・表現・読み方 - 英辞郎 on the WEB",
+      "content_preview": "英辞郎 on the WEB Pro / Pro Lite\nログイン\n無料登録\n検索\nデータ提供：EDP ※データの転載は禁じられています。\n悪質な拡張機能にご注意ください。\n\n音声再生\n\n検索履歴\n\n単語帳\n\nガイド\n\n環境設定\n\nお知らせ\n\nplaywrightとは\nplaywrightの検索結果\n\t48件 検索結果一覧を見る\n\nplaywright の変化形\n\t《複》playwrights\nplaywright の意味・使い方・読み方\nplaywright\n名\n脚本家◆可算\nレベル9、発音pléiràit、カナプレイライト、変化《複》playwrights、分節play・wright\nplaywrightを含む検索結果一覧\n該当件数 : 48件\nplaywright-director\n名\n脚本家兼監督\nBroadway playwright\n《a ～》ブロードウェイミュージカルの脚本家\nbudding playwright\n《a ～》駆け出しの劇作家［脚本家］\ncelebrated playwright\n《a ～》著名な劇作家［脚本家］\nclever playwright\n《a ～》優れた劇作家［脚本家］\ncomic playwright\n《a ～》喜劇作家［脚本家］\nconsummate playwright\n《a ～》円熟した劇作家［脚本家］\ndidactic playwright\n《a ～》メッセージ性の高い作品を書く劇作家［脚本家］\nfashionable playwright\n《a ～》流行の劇作家［脚本家］\nfledgling playwright\n《a ～》駆け出しの劇作家［脚本家］\nfrustrated playwright\n《a ～》挫折した劇作家［脚本家］\ngifted playwright\n《a ～》才能豊かな劇作家［脚本家］\ngreat playwright\n《a ～》偉大な劇作家［脚本家］\nJacobean playwright\n《a ～》ジャコビアン様式の劇作家［脚本家］\njourneyman playwright\n《a ～》腕の確かな劇作家［脚本家］\nkabuki playwright\n《a ～》歌舞伎作家\nmature playwright\n《a ～》円熟した劇作家［脚本家］\nmediocre playwright\n《a ～...",
+      "full_content_length": 2474,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://cloud.sojitz-ti.com/blog/microsoft-playwright-testing/",
+      "title": "Web アプリのテストを自動化する「Microsoft Playwright Testing」とは？ | Azure導入支援デスク",
+      "content_preview": "\t\nAzureとは\n \nAzure サービス\n \nAzureプロダクト\n \n価格\n \n事例・イベント・資料\n \n双日テックイノベーションとは\n \nお問い合わせ\n \n03-6272-5011\n\n\nWeb アプリのテストを自動化する「Microsoft Playwright Testing」とは？\n2023年10月18日|IN ブログ|BY 髙橋 和輝\n\n\nHomeブログWeb アプリのテストを自動化する「Microsoft Playwright Testing」とは？\nWeb アプリのテストを自動化する「Microsoft Playwright Testing」とは？\n\n \n\n今回は、Microsoft Playwright Testingという新しいサービスについてご紹介したいと思います。\n\nMicrosoft Playwright Testingは、現在、パブリックプレビューで公開されているモダンなウェブアプリのエンドツーエンドテストを自動化できるようにするサービスです。Playwrightというオープンソースのフレームワークを使って、異なるオペレーティングシステムやブラウザで同時に並列にテストを実行できます。これにより、テストの実行時間が短縮され、テストシナリオを網羅することがより容易になります。\n\nAnnouncing Microsoft Playwright Testing: Scalable end-to-end testing for modern web apps | Azure Blog | Microsoft Azure\n\nPlaywright Testing (microsoft.com)\n\n \n\nMicrosoft Playwright Testingの特徴についていくつかご紹介します。\n\n \n\nMicrosoft Playwright Testingの特徴\nPlaywrightとのシームレスな連携: Playwrightは、モダンなウェブアプリのテストや自動化に使えるオープンソースのフレームワークです。Microsoft Playwright Testingは、Playwrightのテストコードに変更を加えることなく、クラウド上で高速に並列にテストを実行できるようにします。\nクロスブラウザやクロスプラットフォームのテスト: Microsoft...",
+      "full_content_length": 2907,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://reffect.co.jp/html/playwright",
+      "title": "入門者でも安心、Playwrightで驚くほど簡単にブラウザテストを行う | アールエフェクト",
+      "content_preview": "トップページ > WEBサイト制作 > 入門者でも安心、Playwrightで驚くほど簡単にブラウザテストを行う\n\nWEBサイト制作\n\n2023/11/25 更新\n\n入門者でも安心、Playwrightで驚くほど簡単にブラウザテストを行う\n\n本文書ではブラウザを利用したテスト自動化ツールを利用した経験がない人、これから Playwright を使ってみたいという人を対象に Playwright の基本的な操作方法について説明を行っています。Vue と React のプロジェクトでの Playwright の利用方法についても後半に説明しています。\n\n目次\n\n1 Playwrightとは\n2 Playwrightのインストール\n3 はじめてのテスト\n3.1 tests/example.spec.tsファイルの中身\n3.2 ブラウザを利用したテスト\n3.3 テストの失敗(エラー)\n3.4 スクリーンショットの取得\n4 設定ファイルの確認\n4.1 testDir\n4.2 fullyParallel\n4.3 forbidOnly\n4.4 retries\n4.5 workers\n4.6 reporter\n4.7 trace\n4.8 projects\n4.8.1 msedgeのインストール\n4.9 その他の設定\n4.9.1 expect timeout\n4.9.2 headless\n5 VueでPlaywrightを利用\n6 ReactでPlaywrightを利用\n6.1 Component Testing\nPlaywrightとは\n\nPlaywright は WEB アプリケーションのテストを自動化するオープンソースのテストツールです。Playwright ではユーザが実際にブラウザを利用して WEB アプリケーションの操作を行う代わりにプログラムを通してブウラザ(Chromium、Firefox、WebKit)を動かすことで WEB アプリケーションのテストを行います。ツールを利用しない場合は機能を追加/更新する度に開発者がブラウザでページを開き動作確認を行う必要があります。Playwright ではフォームへの入力やボタンのクリック、ページの移動などプログラムを通して行うことができるためブラウザ上での操作をコード化することで繰り返し行う動作確認をテストとして自動化すること...",
+      "full_content_length": 31345,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://www.c-bot.pro/ja/column/how_to_automate_browser_testing_with_playwright/",
+      "title": "playwrightを使用してブラウザのテストを自動化する方法について | クラウドBOT",
+      "content_preview": " 資料請求\nクラウドBOTについて\n機能\n料金プラン\nサポート\nお問い合わせ\nLanguage\nアカウント作成\nログイン\nplaywrightを使用してブラウザのテストを自動化する方法について\nTOP\nクラウド型RPAの導入をお考えなら\n playwrightを使用してブラウザのテストを自動化する方法について\nplaywrightとは\n環境構築\nテストの実装\n実行してみる\nまとめ\nテストの自動化をお考えなら『クラウドBOT』をお試しください\n\nブラウザの品質を保つためには、信頼性の高いテストが不可欠です。テストの信頼性や効率性を向上させたい人向けに、playwrightを使用したブラウザのテストを自動化する方法についてご紹介します。\n\nplaywrightとは\n\nplaywrightは、ブラウザのシステムに対して信頼性の高いテストをすることができるツールです。多くのブラウザ(Chromium, WebKit, FireFox)やプラットフォーム(Windows, Linux, MacOS)に対応しており、環境毎のテストが可能です。playwrightを使用すると、安定したテストを実現することが可能です。例えばテストするブラウザがページ遷移や読み込みしている間は、テストが適切なタイミングで実行されるように待機させることが容易に可能であるため、信頼性と正確性の高いテストができます。\n\n環境構築\n\nプラットフォーム：MacOS\nNode：v20.7.0\nNpm：v10.1.0\nNpx：v10.1.0\nPlayright: 1.44.1\nYAML: 2.4.5\n\n1.NodeとNpmをインストール\n\nbrew install node\n\n2.プロジェクトを用意\n\nmkdir 任意名\n\n3.作成したプロジェクトに移動してNodeプロジェクトを初期化\n\nnpm init -y\n\n4.playwightをNodeプロジェクトにインストール\n\nnpm install playwright\n\n5.Playwrightが使用するブラウザをインストール\n\nnpx install playwight\n\n6.yamlをNodeプロジェクトにインストール\n\nnpm install yaml\n\n7.テストを実行するjsファイルを用意\n\ntouch sample.js\n\n8.テスト結果を記録するt...",
+      "full_content_length": 6700,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://note.com/masayuki_abe/n/n9feb159b5e05",
+      "title": "Playwright(Python向けのブラウザ自動化フレームワーク(マイクロソフト))｜Masayuki Abe",
+      "content_preview": "ログイン\n会員登録\nPhoto by featurecompass\nPlaywright(Python向けのブラウザ自動化フレームワーク(マイクロソフト))\n18\nMasayuki Abe\n2025年1月13日 13:27\n\nPython向けのブラウザ自動化フレームワークとしては、Seleniumが有名ですが、近年はMicrosoftが開発・提供している「Playwright」も注目を集めています。PlaywrightはもともとNode.js向けに開発されたものでしたが、Python・Java・.NETなど複数の言語バインディングが用意されており、近代的なブラウザ自動化・E2Eテストをより快適に行えるようになっています。\n\n以下では、Python版Playwrightについて概要・機能・インストール方法・簡単なサンプルコードなどを紹介します。\n\n\n\n1. Playwrightとは？\n\nPlaywright は、Microsoft がオープンソースで開発しているクロスブラウザの自動化ライブラリです。単一のAPIで、主要ブラウザ（Chromium系、Firefox、WebKit）を操作できます。ページ遷移やクリック、フォーム入力、スクリーンショット撮影などの操作をスクリプトで行うことができます。\n\n特徴\n\n複数ブラウザへの対応\nChromium、Firefox、WebKit(Safariエンジン)を同一のAPIで操作できます。\n\n高速で安定したテスト\nSeleniumと比べると、より高速かつ軽量に動作すると言われています。\n\nモダンな非同期操作\nPython版では同期的に記述もできますが、内部では効率的に非同期処理が行われています。\n\n自動的な待機(インテリジェントなwait)\n要素の表示待ちやイベント完了待ちを内蔵しているため、手動で待機を挿入する必要が減ります。\n\nヘッドレスモード/ヘッドフルモード両対応\nGUIのない環境でも実行でき、通常のブラウザウィンドウを表示させるモードでもテストできます。\n\nビデオ・トレースの録画機能\nテスト時の操作を録画し、テストのデバッグやリグレッションテストに活用できます。\n\n\n\n\n2. インストール\n\nPython環境にPlaywrightを導入する手順は以下の通りです。\n\npip install playwright\n\nその後、ブ...",
+      "full_content_length": 4090,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://bema.jp/articles/20250228/",
+      "title": "【E2Eテスト自動化】Playwrightの特徴・導入方法・活用ポイントを解説！｜BEMA Lab｜エンジニアの成長を支援する技術メディア",
+      "content_preview": "エンジニアの\n成長を支援する\n技術メディア\n\nホーム\nBEMAについて\n公式アカウント\nホーム\nBEMAについて\n\nCategory\n\nアジャイル開発/スクラム\nDevOps/クラウド\nAI\nバックエンド\nFlutter/モバイル\nJamstack/フロントエンド\nothers\n公式アカウント\nアジャイル開発/スクラム\nDevOps/クラウド\nAI\nバックエンド\nFlutter/モバイル\nJamstack/フロントエンド\nothers\n「アジャイル開発/スクラム」の記事一覧を見る\n「アジャイル開発/スクラム」のタグ一覧\nスクラムマスター（7）\nレトロスペクティブ（2）\n「DevOps/クラウド」の記事一覧を見る\n「DevOps/クラウド」のタグ一覧\nAWS（6）\nCI/CD（6）\nインフラストラクチャ（3）\nAnsible（2）\nCodeCommit（2）\nTerraform（2）\nAmplify（2）\nKubernetes（1）\nhelm（1）\nAPI Gateway（1）\nサーバーレス（1）\nAmazonSES（1）\nLambda（1）\n「AI」の記事一覧を見る\n「AI」のタグ一覧\nCNN（1）\n深層学習（1）\n「バックエンド」の記事一覧を見る\n「バックエンド」のタグ一覧\nOracle APEX（2）\nCloud SQL（1）\nMySQL（1）\nRuby（1）\nPython（1）\n「Flutter/モバイル」の記事一覧を見る\n「Flutter/モバイル」のタグ一覧\nFlutter（26）\nSwift（1）\n「Jamstack/フロントエンド」の記事一覧を見る\n「Jamstack/フロントエンド」のタグ一覧\nJamstack（9）\nAstro（8）\nSSG（8）\nmicroCMS（6）\nJavaScript（3）\nWordPress（3）\nRedux（1）\nTypeScript（1）\nPuppeteer（1）\nReact（1）\nSEO（1）\n「others」の記事一覧を見る\n「others」のタグ一覧\nアドベントカレンダー（25）\nエンジニア組織（15）\nスキルアップ（13）\nイベント（10）\n日本CTO協会（9）\nトラブルシューティング（8）\n内製化（5）\nオープンイノベーション（4）\nデジタル人材育成（3）\nマネジメント（3）\nDX推進（2）\nMarkdown...",
+      "full_content_length": 5634,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://developers.play.jp/entry/2022/12/09/160940",
+      "title": "E2E テストツールの Playwright を試してみた - PLAY DEVELOPERS BLOG",
+      "content_preview": "2022-12-09\nE2E テストツールの Playwright を試してみた\nE2E 自動テスト Playwright\n\n皆さん、こんにちは。\nSaaS 事業部の林と申します。\n\n今回は会社の案件で、E2E (End-to-End) テスト の導入について検討する機会がありましたので、自動 E2E テストツールのひとつである Playwright について簡単にご紹介させていただきます。\n\nE2E (End-to-End) テストとは\nPlaywright とは\nPlaywright のインストール\nPlaywright の設定\ntestDir\ntimeout\nheadless\nprojects\nテストコード\n要素の指定方法について\nスクリーンショットの取得\nテスト実行中の動画\nAndroid でテストを実行するための準備\nAndroid テストコード\nスクリーンショットの取得\nテスト実行中の動画\nNightwatch.js との比較\nテストコードの書き方について\nスクリーンショット機能について\n対応デバイス（ブラウザ）について\nまとめ\nE2E (End-to-End) テストとは\n\nE2E (End-to-End) テスト とは、ユーザーがシステムを実際に操作する時の手順を再現して、フロントエンドとバックエンドが期待通りに動作することを検証するテストです。具体的には、お客様の観点から考えて、以下のような操作を行います。\n\n例えば、ユーザー認証を行うシステムの場合：\n\n新規登録フォームから、ユーザーの新規登録ができる。\n認証に成功すると、ユーザーのマイページが表示される。\nパスワードの入力を間違えると、認証エラーが表示される。\n\n上記をブラウザ操作により再現して、システムが期待通りに動作することを検証します。\n\nE2E テストを行うことで、単体テストや結合テストでは見つかりにくいバグを見つけることができます。また、E2E テストを自動化することで、検証時間の短縮や、検証者による個人差のない安定した検証ができます。さらに、複数のブラウザをまとめてテストできるため、ブラウザ固有の問題を検出しやすくなります。\n\nPlaywright とは\n\nよく使われる自動 E2E テストツールとして、Playwright や Nightwatch.js 、Cypress などがあり...",
+      "full_content_length": 8396,
+      "emails": [
+        "03a33e4781a24cf2885099fed222b56d@sentry.io"
+      ],
+      "phones": [],
+      "source_category": "organic_search_result"
+    },
+    {
+      "url": "https://kaeken.hatenablog.com/entry/2024/12/10/215557",
+      "title": "Error: TimeoutError",
+      "content_preview": null,
+      "emails": [],
+      "phones": [],
+      "source_category": "organic_search_result",
+      "error_details": "TimeoutError"
+    }
+  ]
+}
