@@ -11,6 +11,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+bin/logs/
+bin/output/
 build/
 node_modules/
 develop-eggs/
